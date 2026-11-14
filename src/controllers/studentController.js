@@ -44,6 +44,11 @@ exports.create = async (req, res) => {
 
 exports.update = async (req, res) => {
   const { name, email, course } = req.body;
+  if (!name || !email || !course) {
+    return res
+      .status(400)
+      .json({ error: "name, email and course are required" });
+  }
   try {
     const [result] = await pool.query(
       "UPDATE students SET name = ?, email = ?, course = ? WHERE id = ?",
